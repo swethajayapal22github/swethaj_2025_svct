@@ -1,0 +1,62 @@
+# The Kristen loves playing with and comparing numbers. She thinks that if she takes two different positive numbers, the one whose digits sum to a larger number is better than the other. If the sum of digits is equal for both numbers, then she thinks the smaller number is better. For example, Kristen thinks that  is better than  and that  is better than .
+
+# Given an integer, , can you find the divisor of  that Kristin will consider to be the best?
+
+# Input Format
+
+# A single integer denoting .
+
+# Constraints
+
+# Output Format
+
+# Print an integer denoting the best divisor of .
+
+# Sample Input 0
+
+# 12
+# Sample Output 0
+
+# 6
+# Explanation 0
+
+# set of divisors of  can be expressed as . The divisor whose digits sum to the largest number is  (which, having only one digit, sums to itself). Thus, we print  as our answer.
+
+import math
+def digit_sum(n):
+
+    """Function to calculate the sum of digits of a number."""
+    return sum(int(digit) for digit in str(n))
+def best_divisor(n):
+    """Function to find the best divisor."""
+
+    best_div = 1
+    max_digit_sum = 1
+    # Iterate from 2 to sqrt(n) to find divisors
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            div1 = i
+            div2 = n // i
+
+            # Check if div1 is better
+            if digit_sum(div1) > max_digit_sum:
+                max_digit_sum = digit_sum(div1)
+                best_div = div1
+            # Check if div2 is better
+            elif digit_sum(div1) == max_digit_sum and div1 < best_div:
+                best_div = div1
+
+            if div1 != div2:
+                if digit_sum(div2) > max_digit_sum:
+                    max_digit_sum = digit_sum(div2)
+                    best_div = div2
+                elif digit_sum(div2) == max_digit_sum and div2 < best_div:
+                    best_div = div2
+    # Check if n is better than the current best divisor
+    if digit_sum(n) > max_digit_sum:
+        best_div = n
+    return best_div
+if _name_ == '_main_':
+    n = int(input().strip())
+    result = best_divisor(n)
+    print(result)
